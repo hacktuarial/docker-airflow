@@ -95,3 +95,6 @@ services:
         command: worker
         # although these workers don't do much work, they use 600-800 mb of memory
         mem_limit: 1000000000
+        # based on https://github.com/puckel/docker-airflow/issues/44
+        ports:
+            - "8793:8793"

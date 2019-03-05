@@ -10,27 +10,27 @@ from airflow.operators.bash_operator import BashOperator
 
 N_MODELS = 25
 
-default_args = {
+task_args = {
     "owner": "Tim",
     "depends_on_past": False,
-    "start_date": datetime(2019, 3, 1),
-    # "end_date": datetime(2018, 3, 7),
     "email": [],
     "email_on_failure": False,
     "email_on_retry": False,
-    "retries": 2,
     "retry_delay": timedelta(minutes=5),
-    "retry_exponential_back_off": True,
+    "retry_exponential_backoff": True,
+    "start_date": datetime(2019, 3, 1),
     # 'queue': 'bash_queue',
     # 'pool': 'backfill',
     # 'priority_weight': 10,
 }
 
 dag = DAG(
-    dag_id="train_models",
+    dag_id="train_models_v0",
     description="fake concurrent model fitting",
     schedule_interval=None,
-    default_args=default_args,
+    default_args=task_args,
+    catchup=False,
+    max_active_runs=1,
 )
 
 # t1, t2 and t3 are examples of tasks created by instantiating operators
@@ -42,7 +42,7 @@ for i in range(N_MODELS):
     t = BashOperator(
         task_id="train_model_%d" % i,
         bash_command="sleep %d" % np.random.poisson(10, size=None),
-        retries=0,
+        retries=2,
         dag=dag,
     )
     t.set_upstream(setup_task)
