@@ -13,8 +13,8 @@ N_MODELS = 25
 default_args = {
     "owner": "Tim",
     "depends_on_past": False,
-    "start_date": datetime(2018, 3, 1),
-    "end_date": datetime(2018, 3, 7),
+    "start_date": datetime(2019, 3, 1),
+    # "end_date": datetime(2018, 3, 7),
     "email": [],
     "email_on_failure": False,
     "email_on_retry": False,
