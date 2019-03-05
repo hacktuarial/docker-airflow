@@ -1,3 +1,6 @@
+# #  env variables based on https://stackoverflow.com/questions/42419834/airbnb-airflow-using-all-system-resources
+# export AIRFLOW__WEBSERVER__WORKERS=2 && export AIRFLOW__WEBSERVER__WEB_SERVER_WORKER_TIMEOUT=300 && export AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL=60 && export AIRFLOW__WEBSERVER__WORKER_REFRESH_INTERVAL=1800
+# docker-compose -f docker-compose-CeleryExecutor.yml up -d --scale worker=1
 version: '2.1'
 services:
     redis:
@@ -90,3 +93,5 @@ services:
             # - POSTGRES_DB=airflow
             # - REDIS_PASSWORD=redispass
         command: worker
+        # although these workers don't do much work, they use 600-800 mb of memory
+        mem_limit: 1000000000
