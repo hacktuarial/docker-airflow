@@ -18,15 +18,19 @@ default_args = {
     "email": [],
     "email_on_failure": False,
     "email_on_retry": False,
-    "retries": 0,  # in reality, you do want retries
+    "retries": 2,
     "retry_delay": timedelta(minutes=5),
+    "retry_exponential_back_off": True,
     # 'queue': 'bash_queue',
     # 'pool': 'backfill',
     # 'priority_weight': 10,
 }
 
 dag = DAG(
-    "train_models", default_args=default_args, schedule_interval=timedelta(days=1)
+    dag_id="train_models",
+    description="fake concurrent model fitting",
+    schedule_interval=None,
+    default_args=default_args,
 )
 
 # t1, t2 and t3 are examples of tasks created by instantiating operators
