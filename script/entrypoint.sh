@@ -76,10 +76,15 @@ case "$1" in
     fi
     exec airflow webserver
     ;;
-  worker|scheduler)
+  worker)
     # To give the webserver time to run initdb.
     sleep 10
     exec airflow "$@"
+    ;;
+  scheduler)
+    # To give the webserver time to run initdb.
+    sleep 10
+    exec airflow "$@" -n 10
     ;;
   flower)
     sleep 10
