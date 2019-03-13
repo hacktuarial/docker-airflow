@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import numpy as np
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
+from airflow.operators.ecs_operator import ECSOperator
 
 N_MODELS = 25
 
@@ -39,9 +40,18 @@ finish_task = BashOperator(task_id="tear_down", bash_command="date", dag=dag)
 
 np.random.seed(593)
 for i in range(N_MODELS):
-    t = BashOperator(
+    t = ECSOperator(
+        # ECS-specific args
+        task_definition="generic_task:6",
+        cluster="tims-cluster",
+        # the work goes in here
+        overrides={
+            "containerOverrides": ["sleep", str(np.random.poisson(10, size=None))]
+        },
+        aws_conn_id="tims_aws_account",
+        launch_type="FARGATE",
+        # general operator args
         task_id="train_model_%d" % i,
-        bash_command="sleep %d" % np.random.poisson(10, size=None),
         retries=2,
         dag=dag,
     )
