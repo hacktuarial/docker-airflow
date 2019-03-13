@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import numpy as np
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
-from airflow.operators.ecs_operator import ECSOperator
+from airflow.contrib.operators.ecs_operator import ECSOperator
 
 N_MODELS = 25
 
