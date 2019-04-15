@@ -46,7 +46,9 @@ for i in range(N_MODELS):
         cluster="tims-cluster",
         # the work goes in here
         overrides={
-            "containerOverrides": ["sleep", str(np.random.poisson(10, size=None))]
+            "containerOverrides": [
+                {"command": ["sleep", str(np.random.poisson(10, size=None))]}
+            ]
         },
         aws_conn_id="tims_aws_account",
         launch_type="FARGATE",
