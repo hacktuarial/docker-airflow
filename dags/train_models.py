@@ -9,7 +9,7 @@ from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.contrib.operators.ecs_operator import ECSOperator
 
-N_MODELS = 25
+N_MODELS = 5
 
 task_args = {
     "owner": "Tim",
@@ -52,7 +52,7 @@ for i in range(N_MODELS):
         launch_type="FARGATE",
         # general operator args
         task_id="train_model_%d" % i,
-        retries=2,
+        retries=0,
         dag=dag,
     )
     t.set_upstream(setup_task)
